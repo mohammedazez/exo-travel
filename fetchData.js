@@ -145,8 +145,8 @@ const getDataTour = async () => {
             "tourDataCurrency",
             JSON.stringify(el.price.currencyCode)
           );
-          localStorage.setItem("tourDataRating", JSON.stringify(el.rating));
-          localStorage.setItem("tourDataType", JSON.stringify(el.type));
+          // localStorage.setItem("tourDataRating", JSON.stringify(el.rating));
+          // localStorage.setItem("tourDataType", JSON.stringify(el.type));
           localStorage.setItem(
             "tourLinkBooking",
             JSON.stringify(el.bookingLink)
@@ -163,23 +163,22 @@ const getDataTour = async () => {
           let detailCurrency = JSON.parse(
             localStorage.getItem("tourDataCurrency")
           );
-          let detailRating = JSON.parse(localStorage.getItem("tourDataRating"));
-          let detailType = JSON.parse(localStorage.getItem("tourDataType"));
+          // let detailRating = JSON.parse(localStorage.getItem("tourDataRating"));
+          // let detailType = JSON.parse(localStorage.getItem("tourDataType"));
           let detailBooking = JSON.parse(
             localStorage.getItem("tourLinkBooking")
           );
-          // console.log("el", detailPicture);
+          console.log("data Storage", detailBooking);
 
           document.getElementById("modalTitle2").innerHTML = detailName;
-
           document.getElementById("tourInfo").innerHTML = detailDescription;
           document.getElementById("modalPicture").src = detailPicture;
           document.getElementById("modalPicture2").src = detailPicture;
           document.getElementById("modalPicture3").src = detailPicture;
           document.getElementById("modalPrice").innerHTML = detailPrice;
           document.getElementById("modalCurrency").innerHTML = detailCurrency;
-          document.getElementById("modalRating").innerHTML = detailRating;
-          document.getElementById("modalType").innerHTML = detailType;
+          // document.getElementById("modalRating").innerHTML = detailRating;
+          // document.getElementById("modalType").innerHTML = detailType;
           document
             .getElementById("modalBooking")
             .addEventListener("click", function () {
