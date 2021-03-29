@@ -10,11 +10,10 @@ function showSpinner() {
   spinner.className = "show";
   setTimeout(() => {
     spinner.className = spinner.className.replace("show", "");
-  }, 5000);
+  }, 3000);
 }
 
 const getDataCity = () => {
-  showSpinner();
   fetch(
     `https://geocode.search.hereapi.com/v1/geocode?q=${citySearch.value}&apikey=${keyCity}`,
     {
@@ -194,27 +193,44 @@ const getDataTour = async () => {
     .catch(function (err) {
       // alert("Location Not Found");
       Swal.fire(
-        "Location Not Found?",
-        "data is incorrect or not found",
-        "question"
-      );
-      location.reload();
+        "Location Not Found!",
+        "Location unavailable or check your spelling.",
+        "error"
+      ).then(() => {
+        location.reload();
+      });
+      
     });
 };
 
+const validate = () => {
+  if(document.getElementById("search-button").value === "")
+  {
+    Swal.fire(
+      "Search bar empty!",
+      "Your search bar is empty.",
+      "error"
+    ).then(() => {
+      location.reload();
+    });
+  }
+  else
+  {
+    getDataCity();
+    getDataTour();
+    showSpinner();
+  }
+}
+
 document.getElementById("search").addEventListener("click", function () {
-  getDataCity();
-  getDataTour();
+  validate();
   document.getElementById("search").hidden = true;
 });
-document
-  .getElementById("search-button")
-  .addEventListener("keyup", function (e) {
+
+document.getElementById("search-button").addEventListener("keyup", function (e) {
     if (e.keyCode === 13) {
-      e.preventDefault;
-      getDataCity();
-      getDataTour();
+      validate();
       document.getElementById("search").hidden = true;
       document.getElementById("search-button").disabled = true;
     }
-  });
+ });
