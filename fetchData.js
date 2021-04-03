@@ -10,6 +10,7 @@ function showSpinner() {
   spinner.className = "show";
   setTimeout(() => {
     spinner.className = spinner.className.replace("show", "");
+    window.scrollBy(0, 600);
   }, 3000);
 }
 
@@ -84,6 +85,7 @@ const getDataTour = async () => {
     })
     .then(function (data) {
       // console.log("datas", data.data);
+
       let listContainer = document.getElementById("list-container");
       // console.log("listContainer", listContainer);
 
@@ -111,10 +113,19 @@ const getDataTour = async () => {
                 <div class="card-body">
                 <h5 id="card-title" class="card-title">${el.name}</h5>
                 <p class="card-text">
-                    <b>${el.price.amount}</b> ${el.price.currencyCode}
+                  
+                  <b>${new Intl.NumberFormat("en-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(el.price.amount * 17000)}</b>
                 </p>
                 <hr />
-                <p><i class="fas fa-star fa-lg"></i> <b>${el.rating}</b></p>
+               
+                <p><i class="fas fa-star fa-lg"></i> <b>${
+                  el.rating === undefined
+                    ? "Belum ada rating"
+                    : Math.round(el.rating)
+                }</b></p>
                 <a
                     href="#"
                     class="btn-card toFormButton"
@@ -199,38 +210,34 @@ const getDataTour = async () => {
       ).then(() => {
         location.reload();
       });
-      
     });
 };
 
 const validate = () => {
-  if(document.getElementById("search-button").value === "")
-  {
-    Swal.fire(
-      "Search bar empty!",
-      "Your search bar is empty.",
-      "error"
-    ).then(() => {
-      location.reload();
-    });
-  }
-  else
-  {
+  if (document.getElementById("search-button").value === "") {
+    Swal.fire("Search bar empty!", "Your search bar is empty.", "error").then(
+      () => {
+        location.reload();
+      }
+    );
+  } else {
     getDataCity();
     getDataTour();
     showSpinner();
   }
-}
+};
 
 document.getElementById("search").addEventListener("click", function () {
   validate();
   document.getElementById("search").hidden = true;
 });
 
-document.getElementById("search-button").addEventListener("keyup", function (e) {
+document
+  .getElementById("search-button")
+  .addEventListener("keyup", function (e) {
     if (e.keyCode === 13) {
       validate();
       document.getElementById("search").hidden = true;
       document.getElementById("search-button").disabled = true;
     }
- });
+  });
